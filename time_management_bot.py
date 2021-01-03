@@ -15,25 +15,6 @@ def start(message):
 
         print('Баланс')
 
-
-
-    #
-    #
-    # elif message.text.lower() == 'банк':
-    #     bot.send_message(message.from_user.id, "В банке: ")
-    #
-    # elif message.text.lower().split(' ')[0] == 'займ':
-    #     bot.send_message(message.from_user.id, "Вы занимаете у банка: " + str(message.text.lower().split(' ')[1]))
-    #     try:
-    #         bank = 'bank - int(message.text.lower().split(' ')[1])'
-    #
-    #     except Exception as e:
-    #         print(e)
-    #         bot.send_message(message.from_user.id, "Ошибка: " + str(e))
-    #
-
-
-
     else:
         print(message.text)
 
