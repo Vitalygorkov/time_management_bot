@@ -2,8 +2,6 @@ import telebot
 from config import api_key
 import models
 
-task_dict = {}
-
 bot = telebot.TeleBot(api_key)
 
 keyboard1 = telebot.types.ReplyKeyboardMarkup()
@@ -59,6 +57,11 @@ def start(message):
         bot.send_message(message.from_user.id, 'Добавлена задача: ' + the_task)
     else:
         print(message.text)
-        bot.send_message(message.from_user.id, '1-4(тип задачи) пробел задача', reply_markup=keyboard1)
+        bot.send_message(message.from_user.id, '1-4(тип задачи) пробел задача. Задачи на один день: ', reply_markup=keyboard1)
+        tasks = ' '
+        for i in models.task_read():
+            tasks += i[0] + '\n'
+        bot.send_message(message.from_user.id, tasks, reply_markup=keyboard1)
+
 
 bot.polling(none_stop=True, interval=0)

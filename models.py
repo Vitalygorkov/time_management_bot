@@ -18,6 +18,7 @@ cur.execute("""CREATE TABLE IF NOT EXISTS tasks(
    type INTEGER);
 """)
 conn.commit()
+conn.close()
 
 # module for writing to the database
 def task_write(name, status, type):
@@ -30,16 +31,17 @@ def task_write(name, status, type):
     except Exception as e:
         print(e)
     print('database entry completed')
+    conn.close()
 
 
 # module for reading from the database
 
 
 def task_read():
-    # conn = sqlite3.connect('tm_base.db')
-    # cur = conn.cursor()
-
+    conn = sqlite3.connect('tm_base.db')
+    cur = conn.cursor()
     cur.execute("SELECT * FROM tasks;")
     all_results = cur.fetchall()
+    conn.close()
     return all_results
 
