@@ -10,14 +10,36 @@ class TaskObject(object):
 
 
 
-# conn = sqlite3.connect('tm_base.db')
-# cur = conn.cursor()
-# # cur.execute("SELECT * FROM channels;")
-# # all_results = cur.fetchall()
-# cur.execute("""CREATE TABLE IF NOT EXISTS vidos(
-#    User TEXT PRIMARY KEY,
-#    Goals TEXT,
-#    prosm TEXT,
-#    Others TEXT);
-# """)
-# conn.commit()
+conn = sqlite3.connect('tm_base.db')
+cur = conn.cursor()
+cur.execute("""CREATE TABLE IF NOT EXISTS tasks(
+   name TEXT PRIMARY KEY,
+   status INTEGER,
+   type INTEGER);
+""")
+conn.commit()
+
+# module for writing to the database
+def task_write(name, status, type):
+    # conn = sqlite3.connect('tm_base.db')
+    # cur = conn.cursor()
+    task = (name, status, type)
+    try:
+        cur.execute("INSERT INTO tasks VALUES(?, ?, ?);", task)
+        conn.commit()
+    except Exception as e:
+        print(e)
+    print('database entry completed')
+
+
+# module for reading from the database
+
+
+def task_read():
+    # conn = sqlite3.connect('tm_base.db')
+    # cur = conn.cursor()
+
+    cur.execute("SELECT * FROM tasks;")
+    all_results = cur.fetchall()
+    return all_results
+
