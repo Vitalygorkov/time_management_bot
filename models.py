@@ -22,8 +22,8 @@ conn.close()
 
 # module for writing to the database
 def task_write(name, status, type):
-    # conn = sqlite3.connect('tm_base.db')
-    # cur = conn.cursor()
+    conn = sqlite3.connect('tm_base.db')
+    cur = conn.cursor()
     task = (name, status, type)
     try:
         cur.execute("INSERT INTO tasks VALUES(?, ?, ?);", task)
@@ -37,11 +37,20 @@ def task_write(name, status, type):
 # module for reading from the database
 
 
-def task_read():
+# def task_read():
+#     conn = sqlite3.connect('tm_base.db')
+#     cur = conn.cursor()
+#     cur.execute("SELECT * FROM tasks;")
+#     all_results = cur.fetchall()
+#     conn.close()
+#     return all_results
+
+def task_read(type):
     conn = sqlite3.connect('tm_base.db')
     cur = conn.cursor()
-    cur.execute("SELECT * FROM tasks;")
+    select_query = """SELECT * FROM tasks WHERE type= ?"""
+    cur.execute(select_query, (type,))
+
     all_results = cur.fetchall()
     conn.close()
     return all_results
-

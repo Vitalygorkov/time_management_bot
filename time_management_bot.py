@@ -26,7 +26,7 @@ def start(message):
         the_task.remove('2')
         print(the_task)
         the_task = ' '.join(the_task)
-        bot.send_message(message.from_user.id, 'Добавлена задача на год: ' + the_task)
+        bot.send_message(message.from_user.id, 'Added task for a year: ' + the_task)
 
     elif message.text.lower().split()[0] == '3':
         the_task = message.text.split()
@@ -34,7 +34,7 @@ def start(message):
         the_task.remove('3')
         print(the_task)
         the_task = ' '.join(the_task)
-        bot.send_message(message.from_user.id, 'Добавлена задача на месяц: ' + the_task)
+        bot.send_message(message.from_user.id, 'Added a task for a month: ' + the_task)
 
     elif message.text.lower().split()[0] == '4':
         the_task = message.text.split()
@@ -42,25 +42,27 @@ def start(message):
         the_task.remove('4')
         print(the_task)
         the_task = ' '.join(the_task)
-        task_4 = models.TaskObject(the_task,0,4)
-        bot.send_message(message.from_user.id, 'Добавлена задача на день: ' + the_task)
+        models.task_write(the_task,0,4)
+        bot.send_message(message.from_user.id, 'Added daily task: ' + the_task)
 
     elif message.text.lower().split()[0].isdigit() == True:
-        bot.send_message(message.from_user.id, 'задание '+ message.text, reply_markup=keyboard1)
-        print('задание')
-    elif message.text.lower().split()[0] == 'задача':
+        bot.send_message(message.from_user.id, 'task '+ message.text, reply_markup=keyboard1)
+        print('task')
+    elif message.text.lower().split()[0] == 'task':
         the_task = message.text.lower().split()
         print(the_task)
-        the_task.remove('задача')
+        the_task.remove('task')
         print(the_task)
         the_task = ' '.join(the_task)
-        bot.send_message(message.from_user.id, 'Добавлена задача: ' + the_task)
+        bot.send_message(message.from_user.id, 'Added task: ' + the_task)
     else:
         print(message.text)
-        bot.send_message(message.from_user.id, '1-4(тип задачи) пробел задача. Задачи на один день: ', reply_markup=keyboard1)
-        tasks = ' '
-        for i in models.task_read():
-            tasks += i[0] + '\n'
+        bot.send_message(message.from_user.id, '1-4(task type) space then task). Tasks for one day: ', reply_markup=keyboard1)
+        tasks = ''
+        num = 1
+        for i in models.task_read(4):
+            tasks += str(num) + '. '+ i[0] + '\n'
+            num +=1
         bot.send_message(message.from_user.id, tasks, reply_markup=keyboard1)
 
 
