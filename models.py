@@ -54,3 +54,26 @@ def task_read(type):
     all_results = cur.fetchall()
     conn.close()
     return all_results
+
+def task_complete(name):
+    conn = sqlite3.connect('tm_base.db')
+    cur = conn.cursor()
+    select_query = """SELECT * FROM tasks WHERE name= ?"""
+    cur.execute(select_query, (name,))
+    task_results = cur.fetchone()
+    conn.close()
+
+    task = (name, status, type)
+    try:
+        cur.execute("INSERT INTO tasks VALUES(?, ?, ?);", task)
+        conn.commit()
+    except Exception as e:
+        print(e)
+    print('database entry completed')
+    conn.close()
+
+    return all_results
+
+
+
+print(task_complete('Час английского'))
