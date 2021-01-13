@@ -61,19 +61,15 @@ def task_complete(name):
     select_query = """SELECT * FROM tasks WHERE name= ?"""
     cur.execute(select_query, (name,))
     task_results = cur.fetchone()
-    conn.close()
 
-    task = (name, status, type)
+    print(task_results[2])
     try:
-        cur.execute("INSERT INTO tasks VALUES(?, ?, ?);", task)
+        cur.execute("""UPDATE tasks SET status=?, type=? WHERE name= ?""", (1, task_results[2], name))
+        # cur.execute("UPDATE tasks SET(?, ?, ?);", task)
         conn.commit()
     except Exception as e:
         print(e)
-    print('database entry completed')
     conn.close()
-
-    return all_results
-
+    print('now status 0')
 
 
-print(task_complete('Час английского'))
