@@ -4,8 +4,8 @@ import models
 
 bot = telebot.TeleBot(api_key)
 
-keyboard1 = telebot.types.ReplyKeyboardMarkup()
-keyboard1.row('add', 'del', 'complete')
+# keyboard1 = telebot.types.ReplyKeyboardMarkup()
+# keyboard1.row('add', 'del', 'complete')
 print('start')
 
 
@@ -14,25 +14,41 @@ print('start')
 @bot.message_handler(content_types=['text'])
 def start(message):
     keyboard = telebot.types.ReplyKeyboardMarkup(True)
-    keyboard.row('Tasks for 10 years', 'Tasks for the day')
+    keyboard.row('Tasks for 10 years', 'Tasks for the year', 'Tasks for the month', 'Tasks for the day')
     msg = bot.send_message(message.chat.id, text = 'Нажми кнопку в меню', reply_markup = keyboard )
     menu1 = telebot.types.InlineKeyboardMarkup()
     menu1.add(telebot.types.InlineKeyboardButton(text = 'добавить задачу', callback_data ='add_10_years'))
-    menu1.add(telebot.types.InlineKeyboardButton(text = 'Вторая кнопка первого меню', callback_data ='second menu1'))
-    menu1.add(telebot.types.InlineKeyboardButton(text = 'третья кнопка первого меню', callback_data='тhree menu1'))
+    menu1.add(telebot.types.InlineKeyboardButton(text = 'пометить выполнние', callback_data ='complete_10_years'))
+    menu1.add(telebot.types.InlineKeyboardButton(text = 'удалить задачу', callback_data ='delete_10_years'))
 
     menu2 = telebot.types.InlineKeyboardMarkup()
     menu2.add(telebot.types.InlineKeyboardButton(text = 'Первая кнопка второго меню', callback_data ='first menu2'))
     menu2.add(telebot.types.InlineKeyboardButton(text = 'Вторая кнопка второго меню', callback_data ='second menu2'))
     menu2.add(telebot.types.InlineKeyboardButton(text = 'третья кнопка второго меню', callback_data='тhree menu2'))
 
+    menu3 = telebot.types.InlineKeyboardMarkup()
+    menu3.add(telebot.types.InlineKeyboardButton(text = 'Первая кнопка третьего меню', callback_data ='first menu2'))
+    menu3.add(telebot.types.InlineKeyboardButton(text = 'Вторая кнопка третьего меню', callback_data ='second menu2'))
+    menu3.add(telebot.types.InlineKeyboardButton(text = 'третья кнопка третьего меню', callback_data='тhree menu2'))
+
+    menu4 = telebot.types.InlineKeyboardMarkup()
+    menu4.add(telebot.types.InlineKeyboardButton(text = 'Первая кнопка четвертого меню', callback_data ='first menu2'))
+    menu4.add(telebot.types.InlineKeyboardButton(text = 'Вторая кнопка четвертого меню', callback_data ='second menu2'))
+    menu4.add(telebot.types.InlineKeyboardButton(text = 'третья кнопка четвертого меню', callback_data='тhree menu2'))
+
 
     if message.text == 'Tasks for 10 years':
         msg = bot.send_message(message.chat.id, text='задачи на 10 лет', reply_markup=menu1)
         bot.send_message(message.chat.id, models.task_read(1))
+    elif message.text == 'Tasks for the year':
+        msg = bot.send_message(message.chat.id, text='Задачи на год', reply_markup=menu2)
+        bot.send_message(message.chat.id, models.task_read(2))
+    elif message.text == 'Tasks for the month':
+        msg = bot.send_message(message.chat.id, text='Задачи на месяц', reply_markup=menu3)
+        bot.send_message(message.chat.id, models.task_read(3))
     elif message.text == 'Tasks for the day':
-        msg = bot.send_message(message.chat.id, text='Нажми первую inline кнопку', reply_markup=menu2)
-
+        msg = bot.send_message(message.chat.id, text='задачи на день', reply_markup=menu4)
+        bot.send_message(message.chat.id, models.task_read(4))
 
 @bot.callback_query_handler(func=lambda call: True)
 def step2(call):
@@ -44,11 +60,16 @@ def step2(call):
     menu10Ycall.add(telebot.types.InlineKeyboardButton(text='Третья кнопка', callback_data='third'))
     menu10Ycall.add(telebot.types.InlineKeyboardButton(text='Четвертая кнопка', callback_data='fourth'))
 
-    if call.data == 'first':
-        msg = bot.send_message(call.message.chat.id, 'Нажми третью кнопку', reply_markup = menu2call)
+    # add
+
     elif call.data == 'add_10_years':
         msg = bot.send_message(call.message.chat.id, 'Вы в меню 10 летних задач, добавить, пометить выполненными?', reply_markup=menu10Ycall)
-
+    elif call.data == 'add_10_years':
+        msg = bot.send_message(call.message.chat.id, 'Вы в меню 10 летних задач, добавить, пометить выполненными?', reply_markup=menu10Ycall)
+    elif call.data == 'add_10_years':
+        msg = bot.send_message(call.message.chat.id, 'Вы в меню 10 летних задач, добавить, пометить выполненными?', reply_markup=menu10Ycall)
+    if call.data == 'first':
+       msg = bot.send_message(call.message.chat.id, 'Нажми третью кнопку', reply_markup=menu2call)
 
 
 
